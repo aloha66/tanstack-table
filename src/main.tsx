@@ -28,6 +28,10 @@ export interface Column<T> {
 import { fetchData, Person } from './fetchData';
 import { col, col2 } from './data/col';
 import InternalTable from './component/InternalTable';
+import TableThemeContext from './component/context/TableThemeContext';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+
 
 const queryClient = new QueryClient();
 
@@ -262,7 +266,13 @@ if (!rootElement) throw new Error('Failed to find the root element');
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
+    <TableThemeContext.Provider value={{
+  Table: 'table',
+  Cell: TableCell,
+  Row: TableRow,
+}}>
       <App2 />
+      </TableThemeContext.Provider>
     </QueryClientProvider>
   </React.StrictMode>
 );

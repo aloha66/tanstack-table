@@ -27,9 +27,7 @@ export function useTableThemeContext() {
 export function useTableContext<T>() {
   const context = useContext<TableContextProps<T>>(TableContext);
 
-  return {
-    table: context.table,
-  };
+  return context
 }
 
 export type UseTableOptions<TData> = {

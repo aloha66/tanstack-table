@@ -22,7 +22,9 @@ export function convertColumn<T>(colArr: ConvertColumn<T>[]) {
     }
     if (render) {
       newColumn.cell = ({ row, getValue }) => {
-        return render(getValue(), row.original);
+        console.log('row',row);
+        
+        return render(getValue(), row.original,row.index);
       };
     }
 

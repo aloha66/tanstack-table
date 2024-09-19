@@ -4,7 +4,7 @@ export interface Column<T> {
   key?: string;
   header?: string;
   columns?: Column<T>[];
-  render?: (val: T[keyof T], row: T) => void;
+  render?: (val: T[keyof T], row: T,rowIdx:number) => void;
 }
 
 type Component<P> =
@@ -20,3 +20,8 @@ export type DefaultRecordType = Record<string, any>;
 export interface ColumnType<RecordType> {
   render?: (value: any, record: RecordType, index: number) => ReactNode;
 }
+
+export type GetComponentProps<DataType> = (
+  data: DataType,
+  index?: number,
+) => React.HTMLAttributes<any> & React.TdHTMLAttributes<any>;
