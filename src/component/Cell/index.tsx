@@ -1,12 +1,11 @@
+import { Cell as TanstackCell, flexRender } from '@tanstack/react-table';
 import { ColumnType, CustomizeComponent, DefaultRecordType } from '../types';
-import useCellRender from './useCellRender';
 
 export interface CellProps<RecordType extends DefaultRecordType> {
-  render?: ColumnType<RecordType>['render'];
-  component?: CustomizeComponent;
+  cell:TanstackCell<any,any>
+  component: CustomizeComponent;
   children?: React.ReactNode;
   record: RecordType;
-  renderIndex: number;
   additionalProps?: React.TdHTMLAttributes<HTMLTableCellElement>;
 }
 
@@ -16,22 +15,15 @@ function Cell<RecordType extends DefaultRecordType>(
   const {
     component: Component,
     additionalProps = {},
-    children,
-    render,
-    renderIndex,
-    record,
+    cell,
+    
   } = props;
 
-  const [childNode] = useCellRender({
-    record,
-    renderIndex,
-    children,
-    render,
-  });
+  return <Component {...additionalProps}>
 
-  let mergedChildNode = childNode;
-
-  return <Component {...additionalProps}>{mergedChildNode}</Component>;
+    {   flexRender(cell.column.columnDef.cell, cell.getContext())}
+  
+    </Component>;
 }
 
 export default Cell;

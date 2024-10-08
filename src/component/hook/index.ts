@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 
 import {
   getCoreRowModel,
@@ -11,6 +11,7 @@ import TableContext, { TableContextProps } from '../context/TableContext';
 import TableThemeContext, {
   TableComponents,
 } from '../context/TableThemeContext';
+import { UseQueryResult } from '@tanstack/react-query';
 
 export function useTableThemeContext() {
   const context = useContext(TableThemeContext);
@@ -27,19 +28,38 @@ export function useTableThemeContext() {
 export function useTableContext<T>() {
   const context = useContext<TableContextProps<T>>(TableContext);
 
-  return context
+  const {table} = context
+
+  function getRows() {
+    return table!.getRowModel().rows
+  }
+
+  return {...context,getRows}
 }
 
 export type UseTableOptions<TData> = {
-  data: TableOptions<TData>['data'];
+  // data: TableOptions<TData>['data'];
   columns: any;
+  dataQuery:UseQueryResult<{
+    rows: TData[];
+    pageCount: number;
+    rowCount: number;
+}, Error>
 };
 
 export function useTable<TData extends RowData>(
   options: UseTableOptions<TData>
 ) {
-  const { data, columns } = options;
+  const {  columns,dataQuery ,pagination,setPagination} = options;
+  const defaultData = useMemo(() => [], []);
+  const data = dataQuery.data?.rows ?? defaultData
   const table = useReactTable({
+    debugTable: true,
+    rowCount: dataQuery.data?.rowCount, // new in v8.13.0 - alternatively, just pass in `pageCount` directly
+    state: {
+      pagination,
+    },
+    onPaginationChange: setPagination,
     columns: convertColumn(columns),
     data,
     getCoreRowModel: getCoreRowModel(),

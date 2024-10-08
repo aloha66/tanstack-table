@@ -10,6 +10,7 @@ export default function useRowInfo<RecordType>( props:UseRowInfo<RecordType>) {
     const {record,recordIndex} = props
 
     const rowProps = onRow?.(record, recordIndex);
+    
 
     return {
         ...context,

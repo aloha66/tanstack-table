@@ -1,36 +1,38 @@
-import { flexRender } from "@tanstack/react-table";
+import { Row } from "@tanstack/react-table";
 import Cell from "../Cell";
 import useRowInfo from "../hook/useRowInfo";
 import { CustomizeComponent } from "../types";
 
 export interface BodyRowProps<RecordType> {
-  record: RecordType;
-  index: number;
-  renderIndex: number;
+  row: Row<any>;
+  // renderIndex: number;
   className?: string;
   style?: React.CSSProperties;
   rowComponent: CustomizeComponent;
   cellComponent: CustomizeComponent;
   scopeCellComponent: CustomizeComponent;
   indent?: number;
-  rowKey: React.Key;
+  // rowKey: React.Key;
 }
 
 function BodyRow<RecordType extends { children?: readonly RecordType[] }>(
   props: BodyRowProps<RecordType>,
 ) {
-  const { rowInstance,record, index, rowComponent: RowComponent,
+  const { rowComponent: RowComponent, row,
     cellComponent,
-    scopeCellComponent, renderIndex } = props
-  const { rowProps, columns } = useRowInfo({ record, recordIndex: index });
+    scopeCellComponent, } = props
+
+  const record = row.original
+  const recordIndex = row.index
+
+  const { rowProps, columns } = useRowInfo({ record, recordIndex });
+
 
   const baseRowNode = (<RowComponent {...rowProps}>
-    {rowInstance.getVisibleCells().map((cell, colIndex) => {
-      const { render } = column;
-
-      return  flexRender(cell.column.columnDef.cell, cell.getContext())
-
-      // return <Cell render={render} component={column.rowScope ? scopeCellComponent : cellComponent} record={record} renderIndex={renderIndex} />
+    {row.getVisibleCells().map((cell, colIndex) => {
+      return <Cell cell={cell} key={cell.id}
+        component={columns[colIndex].rowScope ? scopeCellComponent : cellComponent}
+        record={record} />
     })}
   </RowComponent>)
 

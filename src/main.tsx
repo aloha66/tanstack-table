@@ -27,10 +27,11 @@ export interface Column<T> {
 
 import { fetchData, Person } from './fetchData';
 import { col, col2 } from './data/col';
-import InternalTable from './component/InternalTable';
+import InternalTable from './InternalTable';
 import TableThemeContext from './component/context/TableThemeContext';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
+import Table from './Table';
 
 
 const queryClient = new QueryClient();
@@ -240,24 +241,10 @@ function App2() {
     queryFn: () => fetchData(pagination),
     placeholderData: keepPreviousData, // don't have 0 rows flash while changing pages/loading next page
   });
+  console.log('dataQuery', dataQuery);
 
-  const defaultData = React.useMemo(() => [], []);
 
-  // const table = useReactTable({
-  //   data: dataQuery.data?.rows ?? defaultData,
-  //   columns,
-  //   // pageCount: dataQuery.data?.pageCount ?? -1, //you can now pass in `rowCount` instead of pageCount and `pageCount` will be calculated internally (new in v8.13.0)
-  //   rowCount: dataQuery.data?.rowCount, // new in v8.13.0 - alternatively, just pass in `pageCount` directly
-  //   state: {
-  //     pagination,
-  //   },
-  //   onPaginationChange: setPagination,
-  //   getCoreRowModel: getCoreRowModel(),
-  //   manualPagination: true, //we're doing manual "server-side" pagination
-  //   // getPaginationRowModel: getPaginationRowModel(), // If only doing manual pagination, you don't need this
-  //   debugTable: true,
-  // });
-  return <InternalTable columns={col2} data={dataQuery.data?.rows ?? defaultData} />;
+  return <Table columns={col2} pagination={pagination} dataQuery={dataQuery} setPagination={setPagination} />;
 }
 
 const rootElement = document.getElementById('root');
@@ -266,12 +253,12 @@ if (!rootElement) throw new Error('Failed to find the root element');
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-    <TableThemeContext.Provider value={{
-  Table: 'table',
-  Cell: TableCell,
-  Row: TableRow,
-}}>
-      <App2 />
+      <TableThemeContext.Provider value={{
+        Table: 'table',
+        Cell: TableCell,
+        Row: TableRow,
+      }}>
+        <App2 />
       </TableThemeContext.Provider>
     </QueryClientProvider>
   </React.StrictMode>

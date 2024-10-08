@@ -21,9 +21,7 @@ export function convertColumn<T>(colArr: ConvertColumn<T>[]) {
       newColumn.accessorKey = key;
     }
     if (render) {
-      newColumn.cell = ({ row, getValue }) => {
-        console.log('row',row);
-        
+      newColumn.cell = ({ row, getValue }) => {        
         return render(getValue(), row.original,row.index);
       };
     }
