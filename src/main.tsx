@@ -16,6 +16,7 @@ import {
   getCoreRowModel,
   ColumnDef,
   flexRender,
+  SortingState,
 } from '@tanstack/react-table';
 
 export interface Column<T> {
@@ -70,8 +71,6 @@ function transformColumn<T>(colArr: Column<T>[]) {
 
   return colArr.map(handleItem);
 }
-
-console.log(transformColumn(col2));
 
 function App() {
   const rerender = React.useReducer(() => ({}), {})[1];
@@ -236,15 +235,18 @@ function App2() {
     pageSize: 10,
   });
 
+  const [sorting, setSorting] = React.useState<SortingState>([])
+  console.log('sorting',sorting);
+  
+
   const dataQuery = useQuery({
     queryKey: ['data', pagination],
     queryFn: () => fetchData(pagination),
     placeholderData: keepPreviousData, // don't have 0 rows flash while changing pages/loading next page
   });
-  console.log('dataQuery', dataQuery);
 
 
-  return <Table columns={col2} pagination={pagination} dataQuery={dataQuery} setPagination={setPagination} />;
+  return <Table columns={col2} sorting={sorting} setSorting={setSorting} pagination={pagination} dataQuery={dataQuery} setPagination={setPagination} />;
 }
 
 const rootElement = document.getElementById('root');
@@ -257,6 +259,7 @@ ReactDOM.createRoot(rootElement).render(
         Table: 'table',
         Cell: TableCell,
         Row: TableRow,
+        ScopeCell:TableCell
       }}>
         <App2 />
       </TableThemeContext.Provider>

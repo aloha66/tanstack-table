@@ -1,6 +1,4 @@
-export function Pagination({table,dataQuery,pagination}) {
-  console.log('able.getCanNextPage(',table.getCanNextPage());
-  
+export function Pagination({table,dataQuery,pagination}) {  
 
     return <>
     <div className="h-2" />

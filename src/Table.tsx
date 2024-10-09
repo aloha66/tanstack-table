@@ -24,8 +24,8 @@ export interface TableProps<TData extends RowData>
  * 處理不同類型表格,分頁,virtual table
  */
 export default function Table<TData extends RowData>(props: TableProps<TData>) {
-  const { columns, pagination,setPagination, dataQuery, ...rest } = props;
-  const table = useTable({ columns, dataQuery,pagination,setPagination });
+  const { columns, pagination,setPagination, sorting, setSorting,dataQuery, ...rest } = props;
+  const table = useTable({ columns, dataQuery,pagination,setPagination,sorting, setSorting });
   return <><InternalTable table={table} columns={columns} {...rest} />
     <Pagination table={table} dataQuery={dataQuery} pagination={pagination} />
   </>

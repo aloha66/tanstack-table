@@ -50,7 +50,7 @@ export type UseTableOptions<TData> = {
 export function useTable<TData extends RowData>(
   options: UseTableOptions<TData>
 ) {
-  const {  columns,dataQuery ,pagination,setPagination} = options;
+  const {  columns,dataQuery ,pagination,setPagination,sorting, setSorting} = options;
   const defaultData = useMemo(() => [], []);
   const data = dataQuery.data?.rows ?? defaultData
   const table = useReactTable({
@@ -58,15 +58,17 @@ export function useTable<TData extends RowData>(
     rowCount: dataQuery.data?.rowCount, // new in v8.13.0 - alternatively, just pass in `pageCount` directly
     state: {
       pagination,
+      sorting
     },
     onPaginationChange: setPagination,
+    onSortingChange: setSorting, 
     columns: convertColumn(columns),
     data,
     getCoreRowModel: getCoreRowModel(),
     // getPaginationRowModel: getPaginationRowModel(), //not needed for server-side pagination
     manualPagination: true, //turn off client-side pagination
-    // rowCount: dataQuery.data?.rowCount, //pass in the total row count so the table knows how many pages there are (pageCount calculated internally if not provided)
-    // pageCount: dataQuery.data?.pageCount, //alternatively directly pass in pageCount instead of rowCount
+    manualSorting: true, //use pre-sorted row model instead of sorted row model
+    isMultiSortEvent: () => true,
   });
 
   return table;
