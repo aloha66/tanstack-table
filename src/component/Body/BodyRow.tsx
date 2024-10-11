@@ -27,7 +27,7 @@ function BodyRow<RecordType extends { children?: readonly RecordType[] }>(
 
   const { rowProps, columns } = useRowInfo({ record, recordIndex });
   const baseRowNode = (<RowComponent {...rowProps}>
-    {row.getVisibleCells().map((cell, colIndex) => {      
+    {row.getVisibleCells().map((cell, colIndex) => {
       return <Cell cell={cell} key={cell.id}
         component={columns[colIndex].rowScope ? scopeCellComponent : cellComponent}
         record={record} />

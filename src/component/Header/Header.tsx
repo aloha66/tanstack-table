@@ -6,7 +6,6 @@ const Header = () => {
   const { table } = useTableContext();
   const { getComponent } = useTableThemeContext();
   const RowComponent = getComponent(Table_Ele.Row);
-  const tdComponent = getComponent(Table_Ele.Cell);
   const ThComponent = getComponent(Table_Ele.ScopeCell);
 
   return (
