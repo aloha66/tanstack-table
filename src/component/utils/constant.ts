@@ -2,6 +2,8 @@ export const Default_Table_Ele = {
   Table: 'table',
   Cell: 'td',
   Row: 'tr',
+  ScopeCell: 'th',
+  Selection: 'input',
 } as const;
 
 export const Table_Ele = {
@@ -9,4 +11,5 @@ export const Table_Ele = {
   Cell: 'Cell',
   Row: 'Row',
   ScopeCell: 'ScopeCell',
+  Selection:'Selection'
 } as const;

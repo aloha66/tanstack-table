@@ -28,10 +28,10 @@ export interface Column<T> {
 
 import { fetchData, Person } from './fetchData';
 import { col, col2 } from './data/col';
-import InternalTable from './InternalTable';
 import TableThemeContext from './component/context/TableThemeContext';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
+import Checkbox from '@mui/material/Checkbox';
 import Table from './Table';
 
 
@@ -236,16 +236,28 @@ function useTableState() {
 
   const [sorting, setSorting] = React.useState<SortingState>([])
 
+  const [rowSelection, setRowSelection] = React.useState({})
+
   return {
     pagination, setPagination,
-    sorting, setSorting
+    sorting, setSorting,
+    rowSelection, setRowSelection
   }
 }
 
 function App2() {
 
   const tableState = useTableState()
-  const { pagination, sorting } = tableState
+  const { pagination, sorting, rowSelection } = tableState
+
+
+  console.log('rowSelection', rowSelection);
+
+  const enableRowSelection = (row) => {
+    return row.firstName.includes('d')
+  }
+
+
 
   const dataQuery = useQuery({
     queryKey: ['data', pagination, sorting],
@@ -253,7 +265,7 @@ function App2() {
     placeholderData: keepPreviousData, // don't have 0 rows flash while changing pages/loading next page
   });
 
-  return <Table columns={col2} dataQuery={dataQuery} {...tableState} />;
+  return <Table columns={col2} dataQuery={dataQuery} {...tableState} enableRowSelection={enableRowSelection} />;
 }
 
 const rootElement = document.getElementById('root');
@@ -266,7 +278,8 @@ ReactDOM.createRoot(rootElement).render(
         Table: 'table',
         Cell: TableCell,
         Row: TableRow,
-        ScopeCell: TableCell
+        ScopeCell: TableCell,
+        Selection: Checkbox,
       }}>
         <App2 />
       </TableThemeContext.Provider>
