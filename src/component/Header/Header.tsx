@@ -17,12 +17,9 @@ const Header = () => {
             return (
               <ThComponent key={header.id} colSpan={header.colSpan}>
                 {header.isPlaceholder ? null : (
-                  // <div {...{onClick: header.column.getToggleSortingHandler()}}>
                       <div {...{onClick: (e)=>{
                     header.column.getToggleSortingHandler()!(e)
                     table.setPageIndex(0)
-                    console.log(222);
-                    
                     }}}> 
                     {flexRender(
                       header.column.columnDef.header,

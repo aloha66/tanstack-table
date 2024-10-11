@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 
 import {
@@ -228,25 +228,32 @@ function App() {
   );
 }
 
-function App2() {
-
+function useTableState() {
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
 
   const [sorting, setSorting] = React.useState<SortingState>([])
-  console.log('sorting',sorting);
-  
+
+  return {
+    pagination, setPagination,
+    sorting, setSorting
+  }
+}
+
+function App2() {
+
+  const tableState = useTableState()
+  const { pagination, sorting } = tableState
 
   const dataQuery = useQuery({
-    queryKey: ['data', pagination],
+    queryKey: ['data', pagination, sorting],
     queryFn: () => fetchData(pagination),
     placeholderData: keepPreviousData, // don't have 0 rows flash while changing pages/loading next page
   });
 
-
-  return <Table columns={col2} sorting={sorting} setSorting={setSorting} pagination={pagination} dataQuery={dataQuery} setPagination={setPagination} />;
+  return <Table columns={col2} dataQuery={dataQuery} {...tableState} />;
 }
 
 const rootElement = document.getElementById('root');
@@ -259,7 +266,7 @@ ReactDOM.createRoot(rootElement).render(
         Table: 'table',
         Cell: TableCell,
         Row: TableRow,
-        ScopeCell:TableCell
+        ScopeCell: TableCell
       }}>
         <App2 />
       </TableThemeContext.Provider>
