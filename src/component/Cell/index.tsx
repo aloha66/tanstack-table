@@ -1,11 +1,12 @@
 import { Cell as TanstackCell, flexRender } from '@tanstack/react-table';
-import { ColumnType, CustomizeComponent, DefaultRecordType } from '../types';
+import { CustomizeComponent, DefaultRecordType } from '../types';
 
 export interface CellProps<RecordType extends DefaultRecordType> {
-  cell:TanstackCell<any,any>
+  cell: TanstackCell<any, any>
   component: CustomizeComponent;
   children?: React.ReactNode;
   record: RecordType;
+  width: number
   additionalProps?: React.TdHTMLAttributes<HTMLTableCellElement>;
 }
 
@@ -16,14 +17,17 @@ function Cell<RecordType extends DefaultRecordType>(
     component: Component,
     additionalProps = {},
     cell,
-    
+    width
+
   } = props;
 
-  return <Component {...additionalProps}>
+  const style = cell.column.columnDef.size && cell.column.columnDef.id !== 'select' ? { width: `${width}px`,maxWidth:`${width}px` } : {}
 
-    {   flexRender(cell.column.columnDef.cell, cell.getContext())}
-  
-    </Component>;
+  return <Component {...additionalProps} style={style}>
+
+    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+
+  </Component>;
 }
 
 export default Cell;

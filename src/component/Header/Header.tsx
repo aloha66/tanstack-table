@@ -14,7 +14,7 @@ const Header = () => {
         <RowComponent key={headerGroup.id}>
           {headerGroup.headers.map((header) => {
             return (
-              <ThComponent key={header.id} colSpan={header.colSpan}>
+              <ThComponent  key={header.id} colSpan={header.colSpan}>
                 {header.isPlaceholder ? null : (
                       <div {...{onClick: (e)=>{
                     header.column.getToggleSortingHandler()!(e)

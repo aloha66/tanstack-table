@@ -12,7 +12,7 @@ function Body() {
 
   return (
     <tbody>
-      {getRows().map((row) => <BodyRow row={row} rowComponent={trComponent} cellComponent={tdComponent} key={row.id} scopeCellComponent={thComponent}/>)}
+      {getRows().map((row) => <BodyRow row={row}rowComponent={trComponent} cellComponent={tdComponent} key={row.id} scopeCellComponent={thComponent}/>)}
     </tbody>
   );
 }

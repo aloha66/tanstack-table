@@ -74,7 +74,7 @@ export function useTable<TData extends RowData>(
     isMultiSortEvent: () => true,
     getRowId: (row, idx) => {
       return rowKey ? row[rowKey] : '' + pagination.pageIndex + idx
-    }
+    },
   });
 
   return table;

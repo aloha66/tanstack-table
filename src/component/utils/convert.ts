@@ -11,14 +11,15 @@ export function convertColumn<T>(colArr: ConvertColumn<T>[]) {
   }
 
   function handleItem(column: ConvertColumn<T>) {
-    const { key, render, columns,type, ...rest } = column;
+    const { key, render, columns,type,width, ...rest } = column;
 
     const newColumn: ColumnDef<T> = {
       accessorKey: '',
+      size:width,
       ...rest,
       ...handleHeader(rest),
     };
-    if (key) {
+        if (key) {
       newColumn.accessorKey = key;
     }
 
