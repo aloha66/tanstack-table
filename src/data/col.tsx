@@ -1,3 +1,4 @@
+import { DATA_TYPE } from '../component/types';
 import { Person } from '../fetchData';
 import { Column } from '../main';
 
@@ -78,5 +79,27 @@ export const col2 = [
   {
     header: 'fullName',
     key: 'fullName',
-  }
+  },
+  {
+    header: 'age',
+    key: 'age',
+  },
+  {
+    header: 'dob',
+    key: 'dob',
+    type:DATA_TYPE.DATE
+  },
+  {
+    key: 'operation',
+    render: (val, row) => {
+      return (
+        <div>
+          <button onClick={() => {
+            console.log('row',val, row);
+            
+          }}>edit</button> 
+        </div>
+      );
+    },
+  },
 ]

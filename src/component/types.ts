@@ -1,9 +1,16 @@
 import { ReactNode } from 'react';
 
+export const DATA_TYPE = {
+  DATE:'date'
+}
+
+export type PreSetDataType = keyof typeof DATA_TYPE
+
 export interface Column<T> {
   key?: string;
   header?: string;
   columns?: Column<T>[];
+  type:PreSetDataType;
   render?: (val: T[keyof T], row: T,rowIdx:number) => void;
 }
 

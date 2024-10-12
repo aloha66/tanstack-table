@@ -5,6 +5,7 @@ export type Person = {
   lastName: string;
   fullName: string;
   age: number;
+  dob: string;
   visits: number;
   progress: number;
   status: 'relationship' | 'complicated' | 'single';
@@ -25,6 +26,7 @@ const newPerson = (): Person => {
   return {
     firstName,
     lastName,
+    dob:faker.date.anytime(),
     fullName: firstName + lastName,
     age: faker.number.int(40),
     visits: faker.number.int(1000),

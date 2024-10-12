@@ -1,5 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { Column as ConvertColumn } from '../types';
+import { renderPreSetDataType } from './preSetDataType';
 
 export function convertColumn<T>(colArr: ConvertColumn<T>[]) {
   function handleHeader(column: ConvertColumn<T>) {
@@ -10,7 +11,7 @@ export function convertColumn<T>(colArr: ConvertColumn<T>[]) {
   }
 
   function handleItem(column: ConvertColumn<T>) {
-    const { key, render, columns, ...rest } = column;
+    const { key, render, columns,type, ...rest } = column;
 
     const newColumn: ColumnDef<T> = {
       accessorKey: '',
@@ -20,6 +21,13 @@ export function convertColumn<T>(colArr: ConvertColumn<T>[]) {
     if (key) {
       newColumn.accessorKey = key;
     }
+
+    if(type) {
+      newColumn.cell = ({ row, getValue }) => {        
+        return renderPreSetDataType(type,getValue(), row.original,row.index);
+      };
+    }
+
     if (render) {
       newColumn.cell = ({ row, getValue }) => {        
         return render(getValue(), row.original,row.index);

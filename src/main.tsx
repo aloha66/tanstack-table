@@ -55,14 +55,9 @@ function App2() {
   const tableState = useTableState()
   const { pagination, sorting, rowSelection } = tableState
 
-
-  console.log('rowSelection', rowSelection);
-
   const enableRowSelection = (row) => {
     return row.firstName.includes('d')
   }
-
-
 
   const dataQuery = useQuery({
     queryKey: ['data', pagination, sorting],
